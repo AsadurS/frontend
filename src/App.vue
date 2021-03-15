@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="w-4/5 mx-auto">
-   <navbar></navbar>
+   <navbar v-if="false"></navbar>
       <loginRegistration></loginRegistration>
     <router-view/>
   </div>

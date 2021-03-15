@@ -29,8 +29,8 @@ export default {
    data(){
        return {
            form:{
-               email:null,
-               password:null
+               email:'asad@gmail.com',
+               password:'123'
            }
        }
    },
@@ -38,9 +38,10 @@ export default {
        ...mapActions({
          signIn : 'auth/signIn'
        }),
-       fromSubmit()
+       async fromSubmit()
        {   
-           this.signIn(this.form);
+         this.signIn(this.form)
+         
        }
    }
 }
