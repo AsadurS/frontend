@@ -13,7 +13,7 @@
                   <label for="password" class="block text-gray-700 font-semibold text-opacity-70"> Password</label>
                   <input type="password" class="w-11/12  p-2 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" v-model="form.password" placeholder="Enter Your password">
                 </div>
-              <button class="bg-blue-500 hover:bg-blue-700 mt-3 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+              <button class="bg-blue-500 hover:bg-blue-700  mt-3 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Sign In
               </button>
             </form>

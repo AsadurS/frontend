@@ -1,20 +1,21 @@
 <template>
   <div id="app" class="w-4/5 mx-auto">
    <navbar v-if="false"></navbar>
-      <loginRegistration></loginRegistration>
+   <log-reg v-else> </log-reg>
     <router-view/>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+
 import navbar from './components/navbar.vue'
-import loginRegistration from './components/login.vue'
+import logReg from './components/login-registration.vue'
+
 export default {
   name: 'App',
   components:{
     navbar, 
-    loginRegistration
+    logReg
 },
 
    watch: {
@@ -25,11 +26,5 @@ export default {
             }
         },
     },
-    mounted()
-    {
-        axios.get('api/get').then(res=>{
-          console.log(res);
-        })
-    }
 }
 </script>

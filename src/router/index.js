@@ -24,9 +24,25 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/product/manage'),
     meta:{
       title : 'Product  Manage'
-    }
-   
-  }
+    },
+  },
+    {
+      path: '/registration',
+      name: 'Registration',
+      component: () => import(/* webpackChunkName: "about" */ '../views/auth/registration'),
+      meta:{
+        title : 'registration'
+      },
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "about" */ '../views/auth/login'),
+    meta:{
+      title : 'registration'
+    },
+ 
+}
 ];
 
 const router = createRouter({
