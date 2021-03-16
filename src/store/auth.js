@@ -26,6 +26,7 @@ export default {
        
         await axios.post("api/auth/login",credentials)
         .then(res=>{
+          console.log(res);
           if(res.data.success)
           {
             router.push('/dashboard');
@@ -57,7 +58,6 @@ export default {
            })
         }catch(e)
         {
-          console.log(e)
           commit('SET_TOKEN', null)
           commit('SET_USER', null)
         }

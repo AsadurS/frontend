@@ -5,7 +5,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import(/* webpackChunkName: "about" */ '../views/dashboard'),
+    component: () => import( '../views/dashboard'),
     meta:{
       title : 'Dashboard'
     }
@@ -13,15 +13,23 @@ const routes = [
   {
     path: '/product/create',
     name: 'ProductCreate',
-    component: () => import(/* webpackChunkName: "about" */ '../views/product/create'),
+    component: () => import( '../views/product/create'),
     meta:{
       title : 'Product Create'
+    },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('token') == null)
+  
+  {
+    next( {name: 'Login'} )
+  }
+  next()
     }
   },
   {
     path: '/product/manage',
     name: 'ProductManage',
-    component: () => import(/* webpackChunkName: "about" */ '../views/product/manage'),
+    component: () => import( '../views/product/manage'),
     meta:{
       title : 'Product  Manage'
     },
@@ -29,18 +37,27 @@ const routes = [
     {
       path: '/registration',
       name: 'Registration',
-      component: () => import(/* webpackChunkName: "about" */ '../views/auth/registration'),
+      component: () => import( '../views/auth/registration'),
       meta:{
         title : 'registration'
       },
   },
   {
     path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/auth/login'),
+    name: 'Login',
+    component: () => import( '../views/auth/login'),
     meta:{
       title : 'registration'
     },
+
+    beforeEnter: (to, from, next) => {
+      if (localStorage.getItem('token') == null)
+  
+  {
+    next( )
+  }
+  next({name:from.name})
+    }
  
 }
 ];
@@ -49,4 +66,15 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 });
+// router.beforeEach((to, from, next) => {
+
+//   if (to.name!== 'Login' && localStorage.getItem('token') == null)
+  
+//   {
+//     next( {name: 'Login'} )
+//   }
+//   next()
+// })
+
+
 export default router;
