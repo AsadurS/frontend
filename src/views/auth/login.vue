@@ -19,6 +19,7 @@
             </div>
           </div>
        </section>
+     
 </template>
 
 <script>
@@ -38,9 +39,12 @@ export default {
        ...mapActions({
          signIn : 'auth/signIn'
        }),
-        fromSubmit()
+      async  fromSubmit()
        {
-         this.signIn(this.form)
+      await  this.signIn(this.form).then(()=>
+         {
+           console.log(12344);
+         })
          
        }
    }

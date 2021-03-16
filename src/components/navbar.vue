@@ -31,7 +31,7 @@
                         <div v-if=" isUserDropdown" class="fixed inset-0 w-full h-screen z-20 bg-black opacity-25" @click=" isUserDropdown = false"></div>
                         <div class="absolute z-30 right-0 mt-2" :class="{'hidden': ! isUserDropdown}">
                             <div class="bg-white rounded-lg shadow-lg py-2 w-48">
-                                <a href="#" class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500">Sign out</a>
+                                <button href="#" @click="signout()" class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500">Sign out</button>
                             </div>
                         </div>
                     </div>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   name: "HelloWorld",
@@ -51,6 +52,15 @@ export default {
        isUserDropdown: false,
     }
   },
+  methods:{
+      ...mapActions({
+         logOut: 'auth/logOut'
+      }),
+      signout()
+      {
+          this.logOut()
+      }
+  }
  
 };
 </script>
