@@ -37,15 +37,16 @@ export default{
     'name' : 'ProductCreate',
     data(){
         return{
+        product: null,
         form: this.initialform(),
         }
     },
     methods:{
 initialform(){
     return {
-        title:null,
-        description: null,
-        price:null,
+        title: this.product.title,
+        description: this.product.description,
+        price:this.product.price,
         image:null
     }
 },
@@ -59,7 +60,7 @@ submitForm(){
         data.append('price', this.form.price);
         data.append('description', this.form.description);
         
-        axios.post('/api/product/store', data)
+        axios.post(this.product.editLink, data)
         .then(res=>{
             if(res.data.success)
             {
@@ -73,13 +74,27 @@ submitForm(){
             toastr.error('Something went wrong');
         })
         
+    },
+    getProduct()
+    {  
+        let param = this.$route.params.product;
+        let path = `api/product/${param}/update`
+        axios.get(path)
+        .then(res=>{
+            console.log(res);
+            this.product = res.data.rpoduct;
+        }).catch(()=>{
+          
+        })
+      
     }
     },
+    created()
+    {
+     this.getProduct()
+      alert()
+    }
     
 }
 </script>
-<style>
-  .ck-editor__editable {
-    min-height: 150px;
-   }
-</style>
+

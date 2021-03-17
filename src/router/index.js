@@ -46,6 +46,15 @@ const routes = [{
         },
     },
     {
+        path: '/product/:product/update',
+        name: 'ProductUpdate',
+        component: () =>
+            import ('../views/product/update'),
+        meta: {
+            title: 'Product  update'
+        },
+    },
+    {
         path: '/registration',
         name: 'Registration',
         component: () =>

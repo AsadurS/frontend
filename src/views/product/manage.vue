@@ -1,22 +1,31 @@
 <template>
-    <div id="form" class="shadow-md bg-white rounded mt-10">
-     <table class="w-full ">
-          <thead class="bg-gray-100 p-8">
-              <tr class="border-b ">
-                  <td> Sl</td>
-                  <td> Title </td>
-                  <td>Description</td>
-                  <td>Image</td>
-                  <td>Actions</td>
+    <div id="form" class="overflow-x-auto bg-white rounded-lg shadow-lg overflow-y-auto relative mt-5">
+     <table class="w-full border-collapse table-auto whitespace-no-wrap bg-white table-striped relative" >
+          <thead >
+              <tr class="text-left">
+                  <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> #</th>
+                  <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> Title</th>
+                  <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> Description</th>
+                  <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> price</th>
+                  <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> image</th>
+                 <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> <span class="m-1.5 "> </span> </th>
               </tr>
           </thead>
-          <tbody>
-              <tr>
-                  <td>01</td>
-                  <td>Lorem ipsum dolor sit....</td>
-                  <td>Lorem ipsum dolor sit....</td>
-                  <td><img src="../../assets/logo.png" class="h-8 w-8" alt=""> </td>
-                  <td> <i class="las la-trash"></i> <i class="las la-edit la-2xl"></i> <i class="las la-eye la "></i></td>
+          <tbody >
+              <tr v-for="(product,index) in products" :key="index">
+                  <td class="border-dashed border-t border-gray-200 px-3" >{{index+1}}</td>
+                  <td class="border-dashed border-t border-gray-200 px-3" >{{product.title}}</td>
+                  <td class="border-dashed border-t border-gray-200 px-3" >{{product.description}}</td>
+                  <td class="border-dashed border-t border-gray-200 px-3" >{{product.price}}</td>
+                  <td class="border-dashed border-t border-gray-200 px-3" >
+                      <img :src="product.image" class="h-8 w-8 m-1.5" alt=""> 
+                   </td>
+                  <td class="border-dashed border-t border-gray-200 px-3" > 
+                      <span class="float-right mr-2">
+                         <button @click="deleteProduct(product.deleteLink)" class="bg-red-300 rounded px-2 m-1.5 hover:bg-red-500"> <i class="las la-trash xl"></i> </button>  
+                          <button @click="editProduct(product)" class="bg-blue-300 rounded px-2 hover:bg-blue-500"> <i class="las la-edit la-xl"></i> </button> 
+                      </span>
+                  </td>
               </tr>
           </tbody>
      </table>
@@ -25,11 +34,41 @@
 <script>
 import axios from 'axios';
 export default{
-    mounted(){
-      axios.get('api/product/manage')
+    data()
+    {
+        return  {
+            products: null,
+        }
+    },
+    methods:{
+        getProducts()
+        {
+            axios.get('api/product/manage')
       .then(res=>{
-          console.log(res)
-      })
+          this.products = res.data.products
+      }) 
+        },
+        deleteProduct(link)
+        {
+            axios.delete(link)
+            .then(res=>
+            {
+                console.log(res);
+            })
+            .catch(error=>{
+                console.log(error);
+            });
+        },
+
+         editProduct(product)
+        {
+            let path = `${product.uuid}/update`;
+            console.log(path);
+            this.$router.push(path)
+        }
+    },
+    mounted(){
+     this.getProducts()
     }
 }
 </script>
