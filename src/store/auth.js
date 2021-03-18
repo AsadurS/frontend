@@ -33,9 +33,21 @@ export default {
                     toastr.success('Yah! successfully login');
 
                 })
-                .catch(e => {
-                    toastr.error(e.response.data.error)
-                    return false;
+                .catch(() => {
+                    toastr.error('Something went wrong');
+                });
+        },
+        async signUp({ dispatch }, credentials) {
+
+            await axios.post("api/auth/registration", credentials)
+                .then(res => {
+                    router.push('/dashboard');
+                    dispatch('authenticate', res.data.access_token);
+                    toastr.success('Yah! successfully Regiter');
+
+                })
+                .catch(() => {
+                    toastr.error('Something went wrong');
                 });
         },
         async authenticate({ commit, state }, token) {

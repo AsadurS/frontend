@@ -17,6 +17,7 @@ export default {
     navbar, 
     logReg
 },
+
 computed:{
 ...mapGetters({
     authenticated: 'auth/authenticated'
@@ -33,3 +34,4 @@ computed:{
     },
 }
 </script>
+

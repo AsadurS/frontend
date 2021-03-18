@@ -15,8 +15,8 @@
                         <div v-if=" isPrDropdown" class="fixed inset-0 w-full h-screen z-20 bg-black opacity-25" @click=" isPrDropdown = false"></div>
                         <div class="absolute z-30 right-0 mt-2" :class="{'hidden': ! isPrDropdown}">
                             <div class="bg-white rounded-lg shadow-lg py-2 w-48">
-                                <router-link  to="/product/create"  class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500"> Create</router-link>
-                                <router-link  to="/product/manage" class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500">Manage</router-link>
+                                <button  @click="createProduct()"    class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500"> Create</button>
+                                <button @click="manageProduct()"   to="/product/manage" class="block text-purple-600 font-semibold px-4 py-2  hover:text-white hover:bg-purple-500">Manage</button>
                             </div>
                         </div>
                     </div>
@@ -59,6 +59,16 @@ export default {
       signout()
       {
           this.logOut()
+      },
+      createProduct()
+      {   
+          this.isPrDropdown = false;
+          this.$router.push({path:'/product/create'})
+      },
+       manageProduct()
+      {   
+          this.isPrDropdown = false;
+          this.$router.push({path:'/product/manage'})
       }
   }
  

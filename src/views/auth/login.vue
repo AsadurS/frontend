@@ -19,6 +19,7 @@
             </div>
           </div>
        </section>
+      
      
 </template>
 
@@ -28,7 +29,9 @@ import { mapActions } from 'vuex'
 export default {
     name: 'Login',
    data(){
+     
        return {
+          
            form:{
                email:'asad@gmail.com',
                password:'123'
@@ -41,12 +44,8 @@ export default {
        }),
       async  fromSubmit()
        {
-      await  this.signIn(this.form).then(()=>
-         {
-           console.log(12344);
-         })
-         
-       }
+      await  this.signIn(this.form)
    }
+}
 }
 </script>

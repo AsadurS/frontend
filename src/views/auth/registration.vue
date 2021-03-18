@@ -30,8 +30,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
-    name: 'login',
+    name: 'Register',
    data(){
        return {
            form:{
@@ -43,9 +44,12 @@ export default {
        }
    },
    methods:{
+      ...mapActions({
+         signUp : 'auth/signUp'
+       }),
        async fromSubmit()
        {   
-         this.signIn(this.form)
+         this.signUp(this.form)
          
        }
    }

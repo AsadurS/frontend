@@ -17,7 +17,7 @@
             </div>
             <div class="m-2">
              <label for="email" class="bloack text-gray-700 font-semibold text-opacity-70"> Image</label>
-                <input  type="file"  @change="handleImage($event)" class="w-full p-1.5 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" accept="image/*" ref="image" > 
+                <input  type="file"  @change="handleImage($event)" class="w-full p-1.5 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" accept="image/jpeg,jpg,png,gif" ref="image" > 
             </div>
            
             <div class="mt-1 mb-2 ml-2 m col-span-3">
@@ -34,7 +34,7 @@ import toastr from 'toastr'
 import axios from 'axios';
 export default{
     
-    'name' : 'ProductCreate',
+    'name' : 'ProductUpdate',
     data(){
         return{
         product: null,
@@ -44,9 +44,9 @@ export default{
     methods:{
 initialform(){
     return {
-        title: this.product.title,
-        description: this.product.description,
-        price:this.product.price,
+        title: null,
+        description: null,
+        price:null,
         image:null
     }
 },
@@ -60,11 +60,11 @@ submitForm(){
         data.append('price', this.form.price);
         data.append('description', this.form.description);
         
-        axios.post(this.product.editLink, data)
+        axios.post(this.product.updateLink, data)
         .then(res=>{
             if(res.data.success)
             {
-                toastr.success('Product has been successfully created');
+                toastr.success('Product has been successfully Updated');
                 this.$router.push('/product/manage');
             }
            
@@ -75,14 +75,17 @@ submitForm(){
         })
         
     },
-    getProduct()
+    async getProduct()
     {  
         let param = this.$route.params.product;
         let path = `api/product/${param}/update`
-        axios.get(path)
+       await axios.get(path)
         .then(res=>{
             console.log(res);
-            this.product = res.data.rpoduct;
+            this.product = res.data.product;
+            this.form.title = this.product.title;
+            this.form.description = this.product.description;
+            this.form.price = this.product.price;
         }).catch(()=>{
           
         })
@@ -92,7 +95,7 @@ submitForm(){
     created()
     {
      this.getProduct()
-      alert()
+     
     }
     
 }

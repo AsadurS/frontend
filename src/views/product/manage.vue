@@ -1,7 +1,7 @@
 <template>
     <div id="form" class="overflow-x-auto bg-white rounded-lg shadow-lg overflow-y-auto relative mt-5">
-     <table class="w-full border-collapse table-auto whitespace-no-wrap bg-white table-striped relative" >
-          <thead >
+     <table class="w-full border-collapse table-auto whitespace-no-wrap bg-white table-striped relative"  >
+          <thead>
               <tr class="text-left">
                   <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> #</th>
                   <th class="bg-gray-100 sticky top-0 border-b border-gray-200 px-6 py-2 text-gray-600 font-bold tracking-wider uppercase text-xs"> Title</th>
@@ -23,21 +23,23 @@
                   <td class="border-dashed border-t border-gray-200 px-3" > 
                       <span class="float-right mr-2">
                          <button @click="deleteProduct(product.deleteLink)" class="bg-red-300 rounded px-2 m-1.5 hover:bg-red-500"> <i class="las la-trash xl"></i> </button>  
-                          <button @click="editProduct(product)" class="bg-blue-300 rounded px-2 hover:bg-blue-500"> <i class="las la-edit la-xl"></i> </button> 
+                          <router-link :to="{name: 'ProductUpdate', params:{product: product.uuid}}"  class="bg-blue-300 rounded px-2 hover:bg-blue-500"> <i class="las la-edit la-xl"></i> </router-link> 
                       </span>
                   </td>
               </tr>
           </tbody>
      </table>
+     <h1 class="text-center m-20" v-if="products.length == 0"> No Record Found </h1>
     </div>
 </template>
 <script>
 import axios from 'axios';
+import toastr from 'toastr';
 export default{
     data()
     {
         return  {
-            products: null,
+            products: [],
         }
     },
     methods:{
@@ -50,14 +52,22 @@ export default{
         },
         deleteProduct(link)
         {
-            axios.delete(link)
+            axios.post(link)
             .then(res=>
             {
-                console.log(res);
-            })
-            .catch(error=>{
-                console.log(error);
-            });
+             if(res.data.success)
+            {
+                toastr.success('Product has been successfully Updated');
+                this.$router.push('/product/manage');
+                this.getProducts();
+            }
+           
+        })
+        .catch(()=>
+        {
+            toastr.error('Something went wrong');
+        })  
+        
         },
 
          editProduct(product)

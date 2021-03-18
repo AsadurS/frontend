@@ -17,7 +17,7 @@
             </div>
             <div class="m-2">
              <label for="email" class="bloack text-gray-700 font-semibold text-opacity-70"> Image</label>
-                <input  type="file"  @change="handleImage($event)" class="w-full p-1.5 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" accept="image/*" ref="image" > 
+                <input  type="file"  @change="handleImage($event)" class="w-full p-1.5 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" accept="image/jpeg,jpg,png,gif" ref="image" > 
             </div>
            
             <div class="mt-1 mb-2 ml-2 m col-span-3">
