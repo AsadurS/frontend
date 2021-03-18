@@ -43,40 +43,49 @@ export default{
         }
     },
     methods:{
+
+         /**
+          * product  product 
+         */
         getProducts()
         {
             axios.get('api/product/manage')
-      .then(res=>{
-          this.products = res.data.products
-      }) 
+            .then(res=>{
+                this.products = res.data.products
+            }) 
         },
+
+         /**
+          * delete  product
+         */
         deleteProduct(link)
         {
             axios.post(link)
             .then(res=>
+                {
+                if(res.data.success)
+                {
+                    toastr.success('Product has been successfully Updated');
+                    this.$router.push('/product/manage');
+                    this.getProducts();
+                }
+            })
+            .catch(()=>
             {
-             if(res.data.success)
-            {
-                toastr.success('Product has been successfully Updated');
-                this.$router.push('/product/manage');
-                this.getProducts();
-            }
-           
-        })
-        .catch(()=>
-        {
-            toastr.error('Something went wrong');
-        })  
-        
+                toastr.error('Something went wrong');
+            })  
         },
 
+        /**
+          * edit  product route push
+         */
          editProduct(product)
         {
             let path = `${product.uuid}/update`;
-            console.log(path);
             this.$router.push(path)
         }
     },
+
     mounted(){
      this.getProducts()
     }

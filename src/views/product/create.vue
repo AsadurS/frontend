@@ -8,12 +8,12 @@
             </div>
             <div class="m-2">
              <label for="email" class="block text-gray-700 font-semibold text-opacity-70"> Price</label>
-                <input placeholder="Enter Product price" v-model="form.price" type="text" class=" w-full p-2 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" >
+                <input placeholder="Enter Product price only numeric value" v-model="form.price" type="text" class=" w-full p-2 border-b-2 border-gray-200 focus:outline-none focus:border-blue-400" >
             </div>
              
             <div class="my-1 col-span-2 mx-2">
              <label for="email" class="block text-gray-700 font-semibold text-opacity-70"> Description</label>
-            <textarea placeholder="Write Product description" class="w-full text-grey-darkest border-b-2 border-gray-200 rounded focus:outline-none focus:border-blue-400" v-model="form.description"></textarea>
+            <textarea placeholder="Write Product description at list 15 character" class="w-full text-grey-darkest border-b-2 border-gray-200 rounded focus:outline-none focus:border-blue-400" v-model="form.description"></textarea>
             </div>
             <div class="m-2">
              <label for="email" class="bloack text-gray-700 font-semibold text-opacity-70"> Image</label>
@@ -29,11 +29,9 @@
     </div>
 </template>
 <script>
-
 import toastr from 'toastr'
 import axios from 'axios';
 export default{
-    
     'name' : 'ProductCreate',
     data(){
         return{
@@ -41,45 +39,45 @@ export default{
         }
     },
     methods:{
-initialform(){
-    return {
-        title:null,
-        description: null,
-        price:null,
-        image:null
-    }
-},
-handleImage(event){
-    this.form.image = event.target.files[0]
-},
-submitForm(){
-        let data = new FormData();
-        data.append('image', this.form.image);
-        data.append('title', this.form.title);
-        data.append('price', this.form.price);
-        data.append('description', this.form.description);
-        
-        axios.post('/api/product/store', data)
-        .then(res=>{
-            if(res.data.success)
+        initialform(){
+        return {
+            title:null,
+            description: null,
+            price:null,
+            image:null
+           }
+        },
+         /**
+          * image handle
+         */
+        handleImage(event){
+            this.form.image = event.target.files[0]
+        },
+
+         /**
+          * form submit
+         */
+        submitForm(){
+            let data = new FormData();
+            data.append('image', this.form.image);
+            data.append('title', this.form.title);
+            data.append('price', this.form.price);
+            data.append('description', this.form.description);
+            
+            axios.post('/api/product/store', data)
+            .then(res=>{
+                if(res.data.success)
+                {
+                    toastr.success('Product has been successfully created');
+                    this.$router.push('/product/manage');
+                }
+            })
+            .catch(()=>
             {
-                toastr.success('Product has been successfully created');
-                this.$router.push('/product/manage');
-            }
-           
-        })
-        .catch(()=>
-        {
-            toastr.error('Something went wrong');
-        })
-        
-    }
-    },
-    
+                toastr.error('Something went wrong');
+            })
+            
+        }
+    }, 
 }
 </script>
-<style>
-  .ck-editor__editable {
-    min-height: 150px;
-   }
-</style>

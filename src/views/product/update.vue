@@ -1,6 +1,6 @@
 <template>
     <div id="form" class="shadow-md bg-white rounded mt-5">
-       <h1 class="font-bold  text-sm sm:text-xl pt-5 text-center"> Product Create</h1>
+       <h1 class="font-bold  text-sm sm:text-xl pt-5 text-center"> Product Update</h1>
         <form action="" class="grid grid-cols-2 gap-3" @submit.prevent="submitForm()">
             <div class="m-2 col-span-2">
              <label for="email" class="block text-gray-700 font-semibold text-opacity-70"> Title</label>
@@ -22,7 +22,7 @@
            
             <div class="mt-1 mb-2 ml-2 m col-span-3">
             <button type="submit" class="bg-blue-500  hover:bg-blue-700  w-20 mx-auto mt-3 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                create
+                Update
               </button>
             </div>
         </form>
@@ -42,56 +42,71 @@ export default{
         }
     },
     methods:{
-initialform(){
-    return {
-        title: null,
-        description: null,
-        price:null,
-        image:null
-    }
-},
-handleImage(event){
-    this.form.image = event.target.files[0]
-},
-submitForm(){
-        let data = new FormData();
-        data.append('image', this.form.image);
-        data.append('title', this.form.title);
-        data.append('price', this.form.price);
-        data.append('description', this.form.description);
-        
-        axios.post(this.product.updateLink, data)
-        .then(res=>{
-            if(res.data.success)
-            {
-                toastr.success('Product has been successfully Updated');
-                this.$router.push('/product/manage');
+         /**
+         * from data
+         */
+        initialform(){
+            return {
+                title: null,
+                description: null,
+                price:null,
+                image:null
             }
-           
-        })
-        .catch(()=>
-        {
-            toastr.error('Something went wrong');
-        })
-        
+        },
+
+         /**
+         * image handle
+         */
+        handleImage(event){
+            this.form.image = event.target.files[0]
+        },
+
+        /**
+         * submit form
+         */
+        submitForm(){
+                let data = new FormData();
+                data.append('image', this.form.image);
+                data.append('title', this.form.title);
+                data.append('price', this.form.price);
+                data.append('description', this.form.description);
+                let  param = this.$route.params.product;
+                 let path = `api/product/${param}/update`
+                axios.post(path, data)
+                .then(res=>{
+                    if(res.data.success)
+                    {
+                        toastr.success('Product has been successfully Updated');
+                        this.$router.push('/product/manage');
+                    }
+                
+                })
+                .catch(()=>
+                {
+                    toastr.error('Something went wrong');
+                })
+                
+            },
+
+        /**
+         * get product 
+         */
+        async getProduct()
+        {  
+            let param = this.$route.params.product;
+            let path = `api/product/${param}/update`
+        await axios.get(path)
+            .then(res=>{
+                this.product = res.data.product;
+                this.form.title = this.product.title;
+                this.form.description = this.product.description;
+                this.form.price = this.product.price;
+            }).catch(()=>{
+               toastr.error('Something Went wrong')
+            })
+        }
     },
-    async getProduct()
-    {  
-        let param = this.$route.params.product;
-        let path = `api/product/${param}/update`
-       await axios.get(path)
-        .then(res=>{
-            console.log(res);
-            this.product = res.data.product;
-            this.form.title = this.product.title;
-            this.form.description = this.product.description;
-            this.form.price = this.product.price;
-        }).catch(()=>{
-          
-        })
-      
-    }
-    },
+
     created()
     {
      this.getProduct()

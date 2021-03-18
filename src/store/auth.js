@@ -23,9 +23,12 @@ export default {
             return state.user
         }
     },
+
+    /**
+     * sign in
+     */
     actions: {
         async signIn({ dispatch }, credentials) {
-
             await axios.post("api/auth/login", credentials)
                 .then(res => {
                     router.push('/dashboard');
@@ -37,6 +40,10 @@ export default {
                     toastr.error('Something went wrong');
                 });
         },
+
+        /**
+         * sign up
+         */
         async signUp({ dispatch }, credentials) {
 
             await axios.post("api/auth/registration", credentials)
@@ -50,6 +57,11 @@ export default {
                     toastr.error('Something went wrong');
                 });
         },
+
+
+        /**
+         * check aouthinticated or not
+         */
         async authenticate({ commit, state }, token) {
 
             if (token) {
@@ -67,8 +79,12 @@ export default {
                 commit('SET_USER', null)
             }
         },
+
+
+        /**
+         * sign out
+         */
         async logOut({ commit }) {
-            console.log(commit);
             try {
                 await axios.post('api/auth/logout').
                 then(res => {
@@ -84,6 +100,7 @@ export default {
             }
         }
     },
+
     modules: {
 
     }

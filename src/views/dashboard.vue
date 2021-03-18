@@ -1,15 +1,8 @@
 <template>
-    <div class="m-5 shadow-xl">
-       Welcome {{user.name}}
+    <div class="m-5 shadow-xl rounded bg-white ">
+     <h1 class="text-center mx-auto p-20 text-2xl">Welcome</h1>  
     </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
-export default {
-  computed: {
-    ...mapGetters({
-      user: 'auth/user'
-    })
-  }
-}
+
 </script>

@@ -44,9 +44,15 @@ export default {
        }
    },
    methods:{
+      /**
+      * get action from store
+      */
       ...mapActions({
          signUp : 'auth/signUp'
        }),
+        /**
+          * form submit
+         */
        async fromSubmit()
        {   
          this.signUp(this.form)

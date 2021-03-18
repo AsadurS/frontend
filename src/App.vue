@@ -23,8 +23,10 @@ computed:{
     authenticated: 'auth/authenticated'
   })
 },
-
-   watch: {
+  /**
+  * dynamically title change
+  */
+  watch: {
         $route: {
             immediate: true,
             handler(to) {

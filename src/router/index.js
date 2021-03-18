@@ -1,14 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
+import store from '@/store'
 
 const routes = [{
         path: '/',
-        beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('token') == null) {
-                next({ name: 'Login' })
-            }
-            next('/dashboard')
-        }
+
     },
     {
         path: '/dashboard',
@@ -17,6 +12,9 @@ const routes = [{
             import ('../views/dashboard'),
         meta: {
             title: 'Dashboard'
+        },
+        beforeEnter: (to, from, next) => {
+            (store.state.auth.token) ? next(): next({ name: 'Login' })
         }
     },
     {
@@ -28,13 +26,9 @@ const routes = [{
             title: 'Product Create'
         },
         beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('token') == null)
-
-            {
-                next({ name: 'Login' })
-            }
-            next()
+            (store.state.auth.token) ? next(): next({ name: 'Login' })
         }
+
     },
     {
         path: '/product/manage',
@@ -44,6 +38,9 @@ const routes = [{
         meta: {
             title: 'Product  Manage'
         },
+        beforeEnter: (to, from, next) => {
+            (store.state.auth.token) ? next(): next({ name: 'Login' })
+        }
     },
     {
         path: '/product/:product/update',
@@ -53,6 +50,9 @@ const routes = [{
         meta: {
             title: 'Product  update'
         },
+        beforeEnter: (to, from, next) => {
+            (store.state.auth.token) ? next(): next({ name: 'Login' })
+        }
     },
     {
         path: '/registration',
@@ -62,6 +62,9 @@ const routes = [{
         meta: {
             title: 'registration'
         },
+        beforeEnter: (to, from, next) => {
+            (!store.state.auth.token) ? next(): next({ path: '/' })
+        }
     },
     {
         path: '/login',
@@ -71,14 +74,15 @@ const routes = [{
         meta: {
             title: 'registration'
         },
-
         beforeEnter: (to, from, next) => {
-            if (localStorage.getItem('token') == null) {
-                next()
-            }
-            next({ name: from.name })
+            (!store.state.auth.token) ? next(): next({ path: '/' })
         }
 
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: () =>
+            import ('../views/error.vue'),
     }
 ];
 
@@ -86,15 +90,6 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 });
-// router.beforeEach((to, from, next) => {
-
-//   if (to.name!== 'Login' && localStorage.getItem('token') == null)
-
-//   {
-//     next( {name: 'Login'} )
-//   }
-//   next()
-// })
 
 
 export default router;
